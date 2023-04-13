@@ -100,7 +100,7 @@ In the backward pass,
 
 ## ALGORITHM:
 
-1.Import the necessary libraries of python.
+1. Import the necessary libraries of python.
 
 2. After that, create a list of attribute names in the dataset and use it in a call to the read_csv() function of the pandas library along with the name of the CSV file containing the dataset.
 
@@ -109,16 +109,123 @@ In the backward pass,
 4. Call the train_test_split() function that further divides the dataset into training data and testing data with a testing data size of 20%.
 Normalize our dataset. 
 
-5.In order to do that we call the StandardScaler() function. Basically, the StandardScaler() function subtracts the mean from a feature and scales it to the unit variance.
+5. In order to do that we call the StandardScaler() function. Basically, the StandardScaler() function subtracts the mean from a feature and scales it to the unit variance.
 
-6.Invoke the MLPClassifier() function with appropriate parameters indicating the hidden layer sizes, activation function, and the maximum number of iterations.
+6. Invoke the MLPClassifier() function with appropriate parameters indicating the hidden layer sizes, activation function, and the maximum number of iterations.
 
-7.In order to get the predicted values we call the predict() function on the testing data set.
+7. In order to get the predicted values we call the predict() function on the testing data set.
 
 8. Finally, call the functions confusion_matrix(), and the classification_report() in order to evaluate the performance of our classifier.
 
 ## PROGRAM 
+### Developed By: SRIJITH R
+### Register Number : 212221240054
+### Importing Libraries
 
-## OUTPUT 
+```python
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import LabelEncoder,StandardScaler
+from sklearn.neural_network import MLPClassifier
+from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
 
-## RESULT
+```
+### Reading Dataset
+```python
+df = pd.read_csv("IRIS.csv")
+df
+```
+### Assiging X and Y values
+```python
+X = df[['sepal_length', 'sepal_width', 'petal_length', 'petal_width']]
+  
+y = df['species']
+
+```
+### First five values of X and Y
+```python
+X.head()
+
+y.head()
+```
+### Unique values in Y
+```python
+print(y.unique())
+```
+
+### Transforming Categorical into numerical values for Y
+
+```python
+le = LabelEncoder()
+y = le.fit_transform(y)
+
+y
+```
+### Splitting Dataset for Training and Testing
+
+```python
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.20)
+
+```
+### Normalizing X values
+```python
+
+scaler = StandardScaler()  
+scaler.fit(X_train)
+
+X_train = scaler.transform(X_train)  
+X_test = scaler.transform(X_test)
+```
+
+### Creating MLP and classifing
+
+```python
+mlp = MLPClassifier(hidden_layer_sizes=(10, 10, 10), max_iter=1000)  
+mlp.fit(X_train, y_train)  
+predictions = mlp.predict(X_test) 
+
+```
+### Predictions
+
+```python
+print(predictions)
+
+```
+### Accuracy
+```python
+accuracy_score(y_test,predictions)
+```
+
+### Confusion Matrix
+```python
+print(confusion_matrix(y_test,predictions))
+```
+
+### Classification Report
+```python
+print(classification_report(y_test,predictions))
+```
+
+
+## OUTPUT :
+### Reading Dataset
+![OUTPUT](ss1.png)
+### First five values of X
+![OUTPUT](ss2.png)
+### First five values of Y
+![OUTPUT](ss3.png)
+
+
+### Predictions
+![OUTPUT](ss4.png)
+
+### Confusion Matrix
+![OUTPUT](ss5.png)
+
+### Classification Report
+![OUTPUT](ss6.png)
+
+
+## RESULT :
+Thus a Multilayer Perceptron with Backpropagation is implemented for Multi classification
